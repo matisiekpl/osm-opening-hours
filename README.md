@@ -1,14 +1,23 @@
 # osm_opening_hours
 
-Validation and canonical formatting for [OpenStreetMap `opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours) tag values.
+Strict validator for [OpenStreetMap `opening_hours`](https://wiki.openstreetmap.org/wiki/Key:opening_hours) tag values.
 
-Implements the full EBNF grammar from the [opening_hours specification](https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification) with two entry points.
+Implements the full EBNF grammar from the [opening_hours specification](https://wiki.openstreetmap.org/wiki/Key:opening_hours/specification) using an ANTLR4-generated parser, plus semantic checks for numeric ranges (hours, minutes, days, weeks, years, nth-of-month) that grammars alone cannot enforce.
 
 ## Features
 
-- `check(value)` - strict validation against the spec.
-- `align(value)` - normalize to canonical form (case, digit padding, separators).
-- Zero runtime dependencies.
+- `OsmOpeningHours.check(value)` — returns `true` if the value is a valid `opening_hours` expression, `false` otherwise.
+- Strict: rejects lowercase weekday/month tokens, unpadded digits, out-of-range values, and malformed separators.
+- No exceptions thrown from `check` — invalid input simply returns `false`.
+
+## Installation
+
+Add the package to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  osm_opening_hours: ^1.0.0
+```
 
 ## Usage
 
@@ -16,20 +25,17 @@ Implements the full EBNF grammar from the [opening_hours specification](https://
 import 'package:osm_opening_hours/osm_opening_hours.dart';
 
 void main() {
-  OsmOpeningHours.check('Mo-Fr 09:00-17:00');         // true
-  OsmOpeningHours.check('mo-fr 9:00-17:00');          // false (strict)
-  OsmOpeningHours.check('garbage');                    // false
+  OsmOpeningHours.check('Mo-Fr 09:00-17:00');          // true
+  OsmOpeningHours.check('24/7');                        // true
+  OsmOpeningHours.check('Mo-Fr 09:00-17:00 || "by appointment"'); // true
 
-  OsmOpeningHours.align('mo-fr 9:00-17:00');
-  // Mo-Fr 09:00-17:00
-
-  OsmOpeningHours.align('Mo-Fr 09:00-17:00;Sa 10:00-14:00');
-  // Mo-Fr 09:00-17:00; Sa 10:00-14:00
-
-  OsmOpeningHours.align('garbage');
-  // throws FormatException
+  OsmOpeningHours.check('mo-fr 9:00-17:00');            // false (strict casing and padding)
+  OsmOpeningHours.check('Mo-Fr 25:00-30:00');           // false (hour out of range)
+  OsmOpeningHours.check('garbage');                     // false
 }
 ```
+
+See `example/osm_opening_hours_example.dart` for a runnable sample.
 
 ## Supported Grammar
 
