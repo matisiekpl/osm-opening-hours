@@ -1,0 +1,13 @@
+name: osm_opening_hours
+description: Validation and canonical formatting for OpenStreetMap opening_hours tag values
+version: 1.0.0
+author: Mateusz Woźniak <matisiek11@gmail.com>
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
