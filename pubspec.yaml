@@ -1,7 +1,7 @@
 name: osm_opening_hours
 description: Validation and canonical formatting for OpenStreetMap opening_hours tag values
 version: 1.0.0
-author: Mateusz Woźniak <matisiek11@gmail.com>
+repository: https://github.com/matisiekpl/osm-opening-hours
 
 environment:
   sdk: ^3.11.4

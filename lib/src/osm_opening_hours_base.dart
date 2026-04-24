@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:antlr4/antlr4.dart';
 
 import 'generated/ohminBaseListener.dart';
