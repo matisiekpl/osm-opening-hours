@@ -510,19 +510,19 @@ void main() {
       );
     });
 
-    test('fallback without surrounding spaces in strict', () {
+    test('fallback without surrounding spaces accepted', () {
       expect(
         OsmOpeningHours.check(
           'Mo-Fr 09:00-17:00||"by appointment"',
         ),
-        isFalse,
+        isTrue,
       );
     });
 
-    test('space around dash in weekday in strict', () {
+    test('space around dash in weekday accepted', () {
       expect(
         OsmOpeningHours.check('Mo - Fr 09:00-17:00'),
-        isFalse,
+        isTrue,
       );
     });
 

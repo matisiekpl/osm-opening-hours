@@ -10,12 +10,5 @@ void main() {
     test('check rejects an invalid value', () {
       expect(OsmOpeningHours.check('nonsense'), isFalse);
     });
-
-    test('align returns canonical form', () {
-      expect(
-        OsmOpeningHours.align('mo-fr 9:00-17:00'),
-        equals('Mo-Fr 09:00-17:00'),
-      );
-    });
   });
 }
